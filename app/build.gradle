@@ -39,6 +39,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.9'
     //realtime database
     implementation 'com.google.firebase:firebase-database:17.0.0'
+    //firebase storage
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
+
 
     //firebaseUI for firebase realtime database
     implementation 'com.firebaseui:firebase-ui-database:5.0.0'
