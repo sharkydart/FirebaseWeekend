@@ -41,7 +41,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:17.0.0'
     //firebase storage
     implementation 'com.google.firebase:firebase-storage:17.0.0'
-
+    //firebase messaging
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
+    //remote config ... "values populated from firebase"
+    implementation 'com.google.firebase:firebase-config:17.0.0'
 
     //firebaseUI for firebase realtime database
     implementation 'com.firebaseui:firebase-ui-database:5.0.0'

@@ -46,6 +46,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -74,8 +75,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
     private ChildEventListener  mChildEventListener;
+    //authentication
     private FirebaseAuth mAuthObj;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    //remote configuration object
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     //need both a firebasestorage ref and a 'storagereference'
     private FirebaseStorage mFirebaseStorage;
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         mAuthObj = FirebaseAuth.getInstance();
         //firebase storage
         mFirebaseStorage = FirebaseStorage.getInstance();
+        //firebase remote config
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         //use database reference to get reference to the 'messages' db in Firebase
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
