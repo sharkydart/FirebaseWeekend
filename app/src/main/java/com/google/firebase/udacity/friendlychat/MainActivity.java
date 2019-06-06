@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
 
                     List<AuthUI.IdpConfig> providers = Arrays.asList(
                             new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.PhoneBuilder().build(),
                             new AuthUI.IdpConfig.GoogleBuilder().build()
                     );
                     startActivityForResult(
@@ -204,19 +203,33 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }else if(requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
-            Uri selectedImageUri = data.getData();
-            final StorageReference photoRef;
-            if(selectedImageUri != null) {
-                photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
-                photoRef.putFile(selectedImageUri).addOnSuccessListener(this,
-                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            FriendlyMessage friendlyMessage =
-                                    new FriendlyMessage(null, mUsername,
-                                            taskSnapshot.getStorage().getDownloadUrl().toString());
-                            mMessagesDatabaseReference.push().setValue(friendlyMessage);
-                        }
-                });
+            if(data != null) {
+                Uri selectedImageUri = data.getData();
+                final StorageReference photoRef;
+
+                if (selectedImageUri != null) {
+                    String imagepathend = selectedImageUri.getLastPathSegment();
+                    if (imagepathend != null) {
+                        photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
+                        photoRef.putFile(selectedImageUri).addOnSuccessListener(this,
+                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(
+                                                new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        FriendlyMessage friendlyMessage =
+                                                                new FriendlyMessage(null, mUsername,
+                                                                        uri.toString()
+                                                                        );
+                                                        mMessagesDatabaseReference.push().setValue(friendlyMessage);
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
+                }
             }
         }
     }
